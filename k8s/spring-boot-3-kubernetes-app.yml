@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-boot-3-kubernetes-app
+  labels:
+    app: spring-boot-3-kubernetes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-boot-3-kubernetes
+  template:
+    metadata:
+      labels:
+        app: spring-boot-3-kubernetes
+    spec:
+      containers:
+        - name: spring-boot-3-kubernetes-app
+          image: 'localhost:5000/deepaksorthiya/spring-boot-3-kubernetes:0.0.1-SNAPSHOT'
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: spring-boot-3-kubernetes-service
+  labels:
+    app: spring-boot-3-kubernetes
+spec:
+  selector:
+    app: spring-boot-3-kubernetes
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

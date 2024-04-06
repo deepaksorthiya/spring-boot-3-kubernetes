@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+spec:
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: /api
+            backend:
+              service:
+                name: spring-boot-3-kubernetes-service
+                port:
+                  number: 8080
+          - pathType: Prefix
+            path: /actuator
+            backend:
+              service:
+                name: spring-boot-3-kubernetes-service
+                port:
+                  number: 8080
+          - pathType: Prefix
+            path: /login
+            backend:
+              service:
+                name: spring-boot-3-security-with-permission-evaluator-service
+                port:
+                  number: 8080
+          - pathType: Prefix
+            path: /admin
+            backend:
+              service:
+                name: spring-boot-3-security-with-permission-evaluator-service
+                port:
+                  number: 8080
+          - pathType: Prefix
+            path: /server-info
+            backend:
+              service:
+                name: spring-boot-3-security-with-permission-evaluator-service
+                port:
+                  number: 8080
