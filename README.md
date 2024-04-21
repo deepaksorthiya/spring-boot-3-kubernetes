@@ -45,6 +45,9 @@ minikube tunnel
 #enable registry
 minikube addons enable registry
 
+#enable metrics for dashboard
+minikube addons enable metrics-server
+
 #check registry service
 kubectl get service --namespace kube-system
 
