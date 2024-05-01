@@ -1,7 +1,7 @@
 # Getting Started
 ## Requirements:
 ```
-Spring Boot: 3.2.4
+Spring Boot: 3.2.5
 Maven: 3.9+
 Java: 17
 Docker Engine: 25.0.2
