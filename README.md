@@ -1,11 +1,13 @@
 # Getting Started
+
 ## Requirements:
+
 ```
 Spring Boot: 3.3.5
 Maven: 3.9+
 Java: 17
 Docker Engine: 25.0.2
-Minikube: v1.32.0
+Minikube: v1.34.0
 ```
 
 ### Clone this repository:
@@ -13,6 +15,7 @@ Minikube: v1.32.0
 ```bash
 git clone https://github.com/deepaksorthiya/spring-boot-3-kubernetes.git
 ```
+
 ```bash
 cd spring-boot-3-kubernetes
 ```
@@ -22,7 +25,9 @@ cd spring-boot-3-kubernetes
 ```bash
 ./mvnw clean spring-boot:build-image -DskipTests
 ```
-### Minikube Testing && Useful Commands
+
+### Start minikube cluster and enable addons(first time only)
+
 ```bash
 #to check available docker context
 docker context list
@@ -36,35 +41,57 @@ minikube start --container-runtime=docker --driver=docker
 #enable nginx ingress
 minikube addons enable ingress
 
+#enable metrics for dashboard
+minikube addons enable metrics-server
+
+#check services via kubectl
+kubectl get service --namespace kube-system
+```
+
+### Minikube Testing && Useful Commands
+
+```bash
 #kubernetes dashboard ui
 minikube dashboard
 
 #route minikube-host traffic
 minikube tunnel
 
-#enable registry
-minikube addons enable registry
+#load local docker image into minikube cluster if not work try below registry option(take some time to load)
+minikube image load deepaksorthiya/spring-boot-3-kubernetes:0.0.1-SNAPSHOT
+minikube image load deepaksorthiya/spring-boot-3-security-with-permission-evaluator:0.0.1-SNAPSHOT
 
-#enable metrics for dashboard
-minikube addons enable metrics-server
+#run all resource file inside k8s dir
+kubectl apply -f k8s
 
-#check registry service
-kubectl get service --namespace kube-system
+#check ingress
+kubectl get ingress
 
-#push host docker images to minikube
-kubectl port-forward --namespace kube-system service/registry 5000:80
+#remove resource files inside k8s dir
+kubectl delete -f k8s
 
-# start alpine
-docker run --rm -it --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:host.docker.internal:5000"
-
-#docker linux inside minikube
+#docker inside minikube for linux/mac OS
 eval $(minikube docker-env)
 
-#docker windows inside minikube
+#docker inside minikube for windows OS
 minikube -p minikube docker-env --shell powershell | Invoke-Expression
 
 #remove image by ID
-docker rmi fd484f19954f
+docker rmi deepaksorthiya/spring-boot-3-kubernetes:0.0.1-SNAPSHOT
+docker rmi deepaksorthiya/spring-boot-3-security-with-permission-evaluator:0.0.1-SNAPSHOT
+
+# start alpine for ingress tunnel to access localhost(optional)
+docker run --rm -it --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:host.docker.internal:5000"
+```
+
+### This is another way to load image in minikube using local registry
+
+```bash
+#enable registry
+minikube addons enable registry
+
+#for pushing host docker images to minikube registry
+kubectl port-forward --namespace kube-system service/registry 5000:80
 
 #tag docker image for minikube
 docker tag deepaksorthiya/spring-boot-3-kubernetes:0.0.1-SNAPSHOT localhost:5000/deepaksorthiya/spring-boot-3-kubernetes:0.0.1-SNAPSHOT
@@ -77,25 +104,38 @@ docker tag deepaksorthiya/spring-boot-3-security-with-permission-evaluator:0.0.1
 
 #push to minikube docker
 docker push localhost:5000/deepaksorthiya/spring-boot-3-security-with-permission-evaluator:0.0.1-SNAPSHOT
-
-#run all resource file inside k8s dir
-kubectl apply -f k8s
-
-#remove resource files inside k8s dir
-kubectl delete -f k8s
-
-#check ingress
-kubectl get ingress
 ```
+
 ### Testing inside POD
+
 ```bash
-kubectl exec --stdin --tty spring-boot-3-kubernetes-app-7bc5f45566-6j9l7 -- /bin/bash
+#get all pods
+kubectl get pods
+
+#get all containers in pod
+kubectl get pods spring-boot-3-kubernetes-85cf8f4bdf-ptx8r -o jsonpath='{.spec.containers[*].name}'
+
+#logs in pod
+kubectl logs spring-boot-3-kubernetes-85cf8f4bdf-ptx8r
+
+#logs in pod with container
+kubectl logs spring-boot-3-kubernetes-85cf8f4bdf-ptx8r -c spring-boot-3-kubernetes
+
+#terminal in pod
+kubectl exec --stdin --tty spring-boot-3-kubernetes-85cf8f4bdf-ptx8r -- /bin/sh
+
+#terminal in pod with container
+kubectl exec --stdin --tty spring-boot-3-kubernetes-85cf8f4bdf-ptx8r -c spring-boot-3-kubernetes -- /bin/sh
+
+##git bash windows
+kubectl exec --stdin --tty spring-boot-3-kubernetes-85cf8f4bdf-ptx8r -- //bin//sh
 
 
-docker exec -it -u root b102a7fd60d8 /bin/bash
+docker exec -it -u root 6912e8c5a4f5 //bin//sh
 
-docker exec -it -u root 4703a4e8ad3a /bin/bash
-
+#for alpline
+apk add update && apk add curl
+#for linux
 apt-get update && apt-get install curl && apt install dnsutils
 
 nslookup spring-boot-3-kubernetes-service
@@ -109,13 +149,16 @@ curl http://spring-boot-3-security-with-permission-evaluator-service.default.svc
 curl http://spring-boot-3-kubernetes-service:8080/api/headers
 curl http://spring-boot-3-security-with-permission-evaluator-service:8080/login
 ```
+
 ### Users for Testing
+
 ```
 USER1 ==> Username: user Password: password
 USER2 ==> Username: admin Password : admin
 ```
 
 ### Rest APIs
+
 http://localhost/api/headers <br>
 http://localhost/login <br>
 http://localhost/actuator <br>
@@ -123,6 +166,7 @@ http://localhost/admin <br>
 http://localhost/server-info
 
 ### Reference Documentation
+
 For further reference, please consider the following sections:
 
 * [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
@@ -131,6 +175,7 @@ For further reference, please consider the following sections:
 * [Spring Web](https://docs.spring.io/spring-boot/docs/3.2.4/reference/htmlsingle/index.html#web)
 
 ### Guides
+
 The following guides illustrate how to use some features concretely:
 
 * [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)

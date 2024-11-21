@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spring-boot-3-security-with-permission-evaluator-app
+  name: spring-boot-3-security-with-permission-evaluator
   labels:
     app: spring-boot-3-security-with-permission-evaluator
 spec:
@@ -15,8 +15,8 @@ spec:
         app: spring-boot-3-security-with-permission-evaluator
     spec:
       containers:
-        - name: spring-boot-3-security-with-permission-evaluator-app
-          image: 'localhost:5000/deepaksorthiya/spring-boot-3-security-with-permission-evaluator:0.0.1-SNAPSHOT'
+        - name: spring-boot-3-security-with-permission-evaluator
+          image: 'deepaksorthiya/spring-boot-3-security-with-permission-evaluator:0.0.1-SNAPSHOT'
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
