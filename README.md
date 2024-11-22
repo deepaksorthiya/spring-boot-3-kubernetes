@@ -3,7 +3,7 @@
 ## Requirements:
 
 ```
-Spring Boot: 3.3.5
+Spring Boot: 3.4.0
 Maven: 3.9+
 Java: 17
 Docker Engine: 25.0.2
