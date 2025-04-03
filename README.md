@@ -61,6 +61,11 @@ minikube dashboard
 minikube tunnel
 
 #load local docker image into minikube cluster if not work try below registry option(take some time to load)
+
+docker image save -o image.tar deepaksorthiya/spring-boot-3-kubernetes:0.0.1-SNAPSHOT
+minikube image load image.tar
+minikube image ls --format table
+
 minikube image load deepaksorthiya/spring-boot-3-kubernetes:0.0.1-SNAPSHOT
 minikube image load deepaksorthiya/spring-boot-3-security-with-permission-evaluator:0.0.1-SNAPSHOT
 
