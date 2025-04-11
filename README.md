@@ -5,8 +5,8 @@
 ## Requirements:
 
 ```
-Git: 2.47.1
-Spring Boot: 3.4.1
+Git: 2.49.0
+Spring Boot: 3.4.4
 Maven: 3.9+
 Java: 17
 Docker Engine: 25.0.2
@@ -156,6 +156,20 @@ curl http://spring-boot-3-security-with-permission-evaluator-service.default.svc
 
 curl http://spring-boot-3-kubernetes-service:8080/api/headers
 curl http://spring-boot-3-security-with-permission-evaluator-service:8080/login
+```
+
+### Debug Running Pod
+
+Check Docs [Pod Debug Using Curl](https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/)
+
+```bash
+kubectl run mycurlpod --image=curlimages/curl -i --tty -- /bin/sh --rm
+kubectl run -it --rm --image=curlimages/curl curly -- /bin/sh
+```
+
+OR
+```bash
+kubectl run mycurlpod --image=curlimages/curl -i --tty -- //bin//sh --rm
 ```
 
 ### Users for Testing
