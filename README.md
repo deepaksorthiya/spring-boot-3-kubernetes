@@ -8,7 +8,7 @@
 Git: 2.49.0
 Spring Boot: 3.4.4
 Maven: 3.9+
-Java: 17
+Java: 21
 Docker Engine: 25.0.2
 Minikube: v1.34.0
 ```
@@ -168,6 +168,7 @@ kubectl run -it --rm --image=curlimages/curl curly -- /bin/sh
 ```
 
 OR
+
 ```bash
 kubectl run mycurlpod --image=curlimages/curl -i --tty -- //bin//sh --rm
 ```
@@ -181,7 +182,7 @@ USER2 ==> Username: admin Password : admin
 
 ### Rest APIs
 
-http://localhost/api/headers <br>
+http://localhost <br>
 http://localhost/login <br>
 http://localhost/actuator <br>
 http://localhost/admin <br>
