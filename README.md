@@ -158,6 +158,23 @@ curl http://spring-boot-3-kubernetes-service:8080/api/headers
 curl http://spring-boot-3-security-with-permission-evaluator-service:8080/login
 ```
 
+### (Optional)Deploy Using Helm Chart
+
+```sh
+cd helm
+helm install spring-boot-3-kubernetes --values=values.yaml spring-boot-3-kubernetes
+helm install spring-boot-3-kubernetes spring-boot-3-kubernetes
+helm uninstall spring-boot-3-kubernetes
+```
+
+helm chart create
+
+```sh
+cd helm
+helm create spring-boot-3-kubernetes
+helm lint spring-boot-3-kubernetes
+```
+
 ### Debug Running Pod
 
 Check Docs [Pod Debug Using Curl](https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/)

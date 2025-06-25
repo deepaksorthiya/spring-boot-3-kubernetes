@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "spring-boot-3-kubernetes.fullname" . }}
+  name: {{ .Values.service.name }}
   labels:
     {{- include "spring-boot-3-kubernetes.labels" . | nindent 4 }}
 spec:
