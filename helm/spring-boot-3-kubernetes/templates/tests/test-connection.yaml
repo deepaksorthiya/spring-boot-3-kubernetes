@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ .Values.service.name }}:{{ .Values.service.port }}/api/headers']
+      args: ['{{ .Values.service.name }}:{{ .Values.service.port }}/api/server-info']
   restartPolicy: Never

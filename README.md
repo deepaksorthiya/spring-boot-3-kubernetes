@@ -75,6 +75,9 @@ kubectl apply -f k8s
 #check ingress
 kubectl get ingress
 
+#test ingress
+curl --resolve "localhost:80:$( minikube ip )" -i http://localhost/api/server-info
+
 #remove resource files inside k8s dir
 kubectl delete -f k8s
 
@@ -150,11 +153,11 @@ nslookup spring-boot-3-kubernetes-service
 
 nslookup spring-boot-3-security-with-permission-evaluator-service
 
-curl http://spring-boot-3-kubernetes-service.default.svc.cluster.local:8080/api/headers
+curl http://spring-boot-3-kubernetes-service.default.svc.cluster.local:8080/api/server-info
 curl http://spring-boot-3-security-with-permission-evaluator-service.default.svc.cluster.local:8080/login
 
 
-curl http://spring-boot-3-kubernetes-service:8080/api/headers
+curl http://spring-boot-3-kubernetes-service:8080/api/server-info
 curl http://spring-boot-3-security-with-permission-evaluator-service:8080/login
 ```
 
@@ -180,6 +183,7 @@ helm lint spring-boot-3-kubernetes
 Check Docs [Pod Debug Using Curl](https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/)
 
 ```bash
+kubectl run -it --rm --restart=Never busybox --image=busybox sh
 kubectl run mycurlpod --image=curlimages/curl -i --tty -- /bin/sh --rm
 kubectl run -it --rm --image=curlimages/curl curly -- /bin/sh
 ```
@@ -204,6 +208,7 @@ http://localhost/login <br>
 http://localhost/actuator <br>
 http://localhost/admin <br>
 http://localhost/server-info
+http://localhost/api/server-info
 
 ### Reference Documentation
 
