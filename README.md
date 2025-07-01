@@ -194,6 +194,43 @@ OR
 kubectl run mycurlpod --image=curlimages/curl -i --tty -- //bin//sh --rm
 ```
 
+### Rolling Update - Scale Application
+
+Running existing load with 5 or more replicas to see changes. Change replica
+in [spring-boot-3-kubernetes-app.yml](k8s/spring-boot-3-kubernetes-app.yml) or directly run
+
+```shell
+kubectl scale deployments/spring-boot-3-kubernetes --replicas=5
+```
+
+Change image version - Run
+
+```bash
+docker image tag deepaksorthiya/spring-boot-3-kubernetes:0.0.1-SNAPSHOT deepaksorthiya/spring-boot-3-kubernetes:v1
+```
+
+Load new image in Minikube Cluster - Run
+
+```bash
+docker image save -o image.tar deepaksorthiya/spring-boot-3-kubernetes:v1
+minikube image load image.tar
+minikube image ls --format table
+```
+
+Update Image to new version and see k8s dashboard where old pods are deleting one by one and new one creating one by one
+
+```shell
+kubectl set image deployments/spring-boot-3-kubernetes spring-boot-3-kubernetes=deepaksorthiya/spring-boot-3-kubernetes:v1
+```
+
+You can move to previous image using
+
+```shell
+kubectl set image deployments/spring-boot-3-kubernetes spring-boot-3-kubernetes=deepaksorthiya/spring-boot-3-kubernetes:0.0.1-SNAPSHOT
+kubectl rollout history deployments/spring-boot-3-kubernetes
+kubectl rollout undo deployment/spring-boot-3-kubernetes
+```
+
 ### Users for Testing
 
 ```
