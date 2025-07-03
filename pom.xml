@@ -47,6 +47,9 @@
                         <publish>false</publish>
                         <createdDate>${maven.build.timestamp}</createdDate>
                         <builder>bellsoft/buildpacks.builder:musl</builder>
+                        <env>
+                            <BP_JVM_VERSION>21</BP_JVM_VERSION>
+                        </env>
                     </image>
                     <layers>
                         <enabled>true</enabled>
