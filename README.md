@@ -6,7 +6,7 @@
 
 ```
 Git: 2.49.0
-Spring Boot: 3.4.5
+Spring Boot: 3.5.5
 Maven: 3.9+
 Java: 21
 Docker Engine: 25.0.2
